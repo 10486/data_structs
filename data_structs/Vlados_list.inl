@@ -44,11 +44,13 @@ T Vlados_list<T>::pop_back() {
 	T tmp = tail->data;
 	if (tail == head) {
 		delete tail;
-		head = nullptr;
+		tail = head = nullptr;
+
 	}
 	else {
 		tail = tail->prev;
 		delete tail->next;
+		tail->next = nullptr;
 	}
 	size_l--;
 	return tmp;
@@ -58,11 +60,13 @@ T Vlados_list<T>::pop_front() {
 	T tmp = head->data;
 	if (tail == head) {
 		delete head;
-		tail = nullptr;
+		tail = head = nullptr;
+
 	}
 	else {
 		head = head->next;
 		delete head->prev;
+		head->prev = nullptr;
 	}
 	size_l--;
 	return tmp;
@@ -73,13 +77,15 @@ long long Vlados_list<T>::size() {
 }
 template <typename T>
 bool Vlados_list<T>::clear() {
-	for (auto i = tail; i != head; i->prev)
-	{
-		delete i;
+	if (size_l > 0) {
+		for (auto i = tail->prev; i != nullptr; i = i->prev)
+		{
+			delete i->next;
+		}
+		delete head;
+		tail = head = nullptr;
+		size_l = 0;
 	}
-	delete head;
-	tail = nullptr;
-	size_l = 0;
 	return true;
 }
 template <typename T>
@@ -90,5 +96,18 @@ T& Vlados_list<T>::operator[] (const int index) {
 		tmp = tmp->next;
 	}
 	return tmp->data;
+}
+template <typename T>
+bool Vlados_list<T>::insert(int index, T el) {
+	if (index > 0) {
+		auto next = this[index];
+		auto prev = next.prev;
+		prev.next = new Node<T>(el);
+		next.prev = prev.next;
+	}
+	else {
+		push_front(el);
+	}
+	return true;
 }
 #endif

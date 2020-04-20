@@ -17,6 +17,7 @@ public:
 	T back();
 	bool push_back(T e);
 	bool push_front(T e);
+	bool insert(int index, T el);
 	T pop_back();
 	T pop_front();
 	long long size();
