@@ -1,43 +1,19 @@
-#include <iostream>
-#include <list>
+#ifndef Treaph
+#define Treaph
+#include "Treap.h"
 #include <random>
+#include <list>
 using namespace std;
 template <typename T>
-class Treap
-{
-public:
-	Treap<T>(T data, int key, int n) {
-		this->X = data;
-		this->Y = key;
-		this->number = n;
-	}
-	Treap<T>(T data, int key) {
-		this->X = data;
-		this->Y = key;
-	}
-	Treap<T>(T data) {
-		this->X = data;
-		this->Y = rand();
-	}
-	Treap<T>();
-	Treap<T>* Merge(Treap<T>* a, Treap<T>* b);
-	Treap<T>* Merge(Treap<T>* a);
-	pair<Treap<T>*, Treap<T>*> Split(T a);
-	Treap<T>* Insert(T data);
-	Treap<T>* Delete(T data);
-	Treap<T>* Find(T data);
-	list<list<Treap<T>*>> Traverse();
-	Treap<T>* Insert(T data, int key);
-	Treap<T>* Insert(T data, int key, int number);
-	T X;
-	int Y;
-	int number;
-private:
-	Treap<T>* Left;
-	Treap<T>* Right;
-	Treap<T>* Parent;
-};
-
+Treap<T>::Treap<T>(T data, int key) {
+	this->X = data;
+	this->Y = key;
+}
+template <typename T>
+Treap<T>::Treap<T>(T data) {
+	this->X = data;
+	this->Y = rand();
+}
 template <typename T>
 Treap<T>* Treap<T>::Merge(Treap<T>* a) {
 	return Merge(this, a);
@@ -53,7 +29,7 @@ Treap<T>* Treap<T>::Merge(Treap<T>* a, Treap<T>* b) {
 		return a;
 	}
 	else {
-		b->Left = Merge(b, a->Left);
+		b->Left = Merge(b,a->Left);
 		b->Left->Parent = b;
 		b->Parent = nullptr;
 		return b;
@@ -67,7 +43,7 @@ pair<Treap<T>*, Treap<T>*> Treap<T>::Split(T x) {
 	if (this->X < x && this->Right == nullptr) {
 		return pair<Treap<T>*, Treap<T>*>{this, nullptr};
 	}
-	if (this->X > x&& this->Left == nullptr) {
+	if (this->X > x && this->Left == nullptr) {
 		return pair<Treap<T>*, Treap<T>*>{nullptr, this};
 	}
 	if (this->X < x) {
@@ -108,11 +84,11 @@ Treap<T>* Treap<T>::Insert(T data, int key) {
 			this->Left = this->Left->Insert(data, key);
 			this->Left->Parent = this;
 		}
-		else if (data > X&& this->Right != nullptr) {
+		else if(data > X && this->Right != nullptr){
 			this->Right = this->Right->Insert(data, key);
 			this->Right->Parent = this;
 		}
-		else if (data < X) {
+		else if(data < X) {
 			this->Left = new Treap<T>(data, key);
 			this->Left->Parent = this;
 		}
@@ -124,44 +100,9 @@ Treap<T>* Treap<T>::Insert(T data, int key) {
 	}
 }
 template <typename T>
-Treap<T>* Treap<T>::Insert(T data, int key,int number) {
-	if (Find(data) != nullptr)return this;
-	if (key > Y) {
-		auto p = this->Split(data);
-		auto t = new Treap<T>(data, key,number);
-		t->Left = p.first;
-		t->Right = p.second;
-		if (p.second != nullptr) {
-			p.second->Parent = t;
-		}if (p.first != nullptr) {
-			p.first->Parent = t;
-		}
-		return t;
-	}
-	else {
-		if (data < X && this->Left != nullptr) {
-			this->Left = this->Left->Insert(data, key,number);
-			this->Left->Parent = this;
-		}
-		else if (data > X&& this->Right != nullptr) {
-			this->Right = this->Right->Insert(data, key,number);
-			this->Right->Parent = this;
-		}
-		else if (data < X) {
-			this->Left = new Treap<T>(data, key,number);
-			this->Left->Parent = this;
-		}
-		else {
-			this->Right = new Treap<T>(data, key,number);
-			this->Right->Parent = this;
-		}
-		return this;
-	}
-}
-template <typename T>
 Treap<T>* Treap<T>::Find(T data) {
 	if (data == this->X)return this;
-	if (data > this->X&& this->Right != nullptr) {
+	if (data > this->X && this->Right != nullptr) {
 		return this->Right->Find(data);
 	}
 	if (data < this->X && this->Left != nullptr) {
@@ -195,33 +136,10 @@ Treap<T>* Treap<T>::Delete(T data) {
 }
 template <typename T>
 list<list<Treap<T>*>> Treap<T>::Traverse() {
-	auto d = list<list<Treap<T>*>>();
+	auto d = list<list<Treap<T>*>> ();
 	d.push_back(list<Treap<T>*>{this->Parent, this->Left, this->Right});
 	if (this->Left != nullptr)	d.splice(d.begin(), this->Left->Traverse());
 	if (this->Right != nullptr)	d.splice(d.end(), this->Right->Traverse());
 	return d;
 }
-int main() {
-	int n,tmp1,tmp2; cin >> n;
-	cin >> tmp1 >> tmp2;
-	try {
-		auto tree = new Treap<int>(tmp1, tmp2,1);
-		for (size_t i = 1; i < n; i++)
-		{
-			cin >> tmp1 >> tmp2;
-			tree = tree->Insert(tmp1, tmp2,i+1);
-		}
-		cout << "YES" << endl;
-		for (auto i : tree->Traverse()) {
-			for (auto k : i)
-			{
-				cout << (k == nullptr ? 0 : k->number) << " ";
-			}
-			cout << endl;
-		}
-	}
-	catch(exception e){
-		cout << "NO";
-	}
-	
-}
+#endif

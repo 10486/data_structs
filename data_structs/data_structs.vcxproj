@@ -138,12 +138,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Binary_tree.inl" />
     <ClCompile Include="Heap.inl" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Treap.inl" />
     <ClCompile Include="Vlados_list.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Binary_tree.h" />
     <ClInclude Include="Heap.h" />
+    <ClInclude Include="Treap.h" />
     <ClInclude Include="Vlados_list.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

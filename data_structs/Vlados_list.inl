@@ -99,15 +99,19 @@ T& Vlados_list<T>::operator[] (const int index) {
 }
 template <typename T>
 bool Vlados_list<T>::insert(int index, T el) {
-	if (index > 0) {
+	if (index == 0) {
+		push_front(el);
+	}
+	else if (index == size_l) {
+		push_back(el);
+	}
+	else{
 		auto next = this[index];
 		auto prev = next.prev;
 		prev.next = new Node<T>(el);
 		next.prev = prev.next;
 	}
-	else {
-		push_front(el);
-	}
+
 	return true;
 }
 #endif

@@ -24,12 +24,24 @@
     <ClCompile Include="Vlados_list.inl">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Binary_tree.inl">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Treap.inl">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Heap.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Vlados_list.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Binary_tree.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Treap.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,7 @@ template <typename T>
 class Vlados_list
 {
 	template <typename T>
-	class Node {
+	struct Node {
 	public:
 		Node<T>(T el) {
 			data = el;
